@@ -18,17 +18,6 @@ import java.util.zip.ZipOutputStream;
 
 public class Scraping {
 
-  public void  webScraping() throws IOException {
-
-
-
-
-
-
-  }
-
-
-
   public void linksPDF() throws IOException {
 
       String pdfsDIR= "src/main/pdfs";
