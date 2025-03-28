@@ -1,29 +1,49 @@
 package org.example.scraping;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class ZipparPdf {
     static final int TAMANHO_BUFFER = 4096;
 
-    public static void add(String arquivo, ZipOutputStream saida) throws IOException {
-        int cont;
-        byte[] dados = new byte[TAMANHO_BUFFER];
-
-        File file = new File(arquivo);
-        BufferedInputStream origem = new BufferedInputStream(new FileInputStream(file), TAMANHO_BUFFER);
-        ZipEntry entry = new ZipEntry(file.getName());
-        saida.putNextEntry(entry);
-
-        while ((cont = origem.read(dados, 0, TAMANHO_BUFFER)) != -1) {
-            saida.write(dados, 0, cont);
+    public static void compactarPDFs(List<String> pdfPaths, String zipFilePath) {
+                                                        //criara um canal de fluxo de saida de bytes
+        try (ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(zipFilePath))) {
+            for (String pdfPath : pdfPaths) {
+                adicionarAoZip(pdfPath, zos);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+    }
 
-        origem.close();
+
+    private static void adicionarAoZip(String pdfPath, ZipOutputStream zos) throws IOException {
+                                                               //Abre um fluxo de entrada para ler bytes do arquivo
+        try (BufferedInputStream buf = new BufferedInputStream(new FileInputStream(pdfPath))) { //abrindo o pdf para poder ler o bytes
+            File file = new File(pdfPath);
+            ZipEntry zipEntry = new ZipEntry(file.getName());
+            zos.putNextEntry(zipEntry);
+
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = buf.read(buffer)) != -1) {
+                zos.write(buffer, 0, bytesRead);
+            }
+
+
+            if(file.exists()){
+                file.delete();
+                System.out.println("Arquivo apagado");
+            }else{
+                System.out.println("Não apagado");
+            }
+            zos.closeEntry();
+
+
+        }
     }
 }
