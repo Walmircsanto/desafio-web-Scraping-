@@ -37,16 +37,16 @@ public class GetAllPdfsByURL {
                     if (fileName.split("_")[0].equalsIgnoreCase("Anexo")) {
                         String filePath = pdfsDIR + File.separator + fileName;
 
-                        DownloadPDF.dowloadPdf(link, filePath);
                         pdfPaths.add(filePath); // so e adicionado assim que o pdf ja estiver baixado
+                        compactarPDFs(link,pdfPaths, zipFilePath);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
 
-            // Compactar todos os PDFs em um único arquivo ZIP
-            compactarPDFs(pdfPaths, zipFilePath);
+
+
         }
 
 
