@@ -41,4 +41,22 @@ Tecnologias utilizadas: Java 11+, Jsoup, Apache PDFBox e OpenCSV.
         <artifactId>opencsv</artifactId>
         <version>5.7.1</version>
     </dependency>
-</dependencies>
+</dependencies> 
+```
+
+
+## 🛠️ Configuração
+
+1. Clone o repositório:
+```bash
+git clone https://github.com/seu-usuario/ans-data-extractor.git
+cd ans-data-extractor
+```
+
+# Build do projeto
+Se estiver usando uma IDE diferente de IntelliJ IDEA execute o comando 
+```bash
+mvn clean package
+```
+# Execução
+Procure a classe Main e starta a alpicação
